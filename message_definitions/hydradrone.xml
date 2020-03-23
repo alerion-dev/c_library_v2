@@ -2,7 +2,7 @@
 <mavlink>
   <include>common.xml</include>
   <enums>
-	<enum name="HYDRADRONE_STATUS">
+    <enum name="HYDRADRONE_STATUS">
       <description>Physical configuration of the hydradrone</description>
       <entry value="0" name="STATUS_UNKNOWN">
         <description>We do not currently know the status</description>
@@ -17,7 +17,7 @@
         <description>The hydradrone is changing its configuration</description>
       </entry>
     </enum>
-	<enum name="PAYLOAD_STATUS">
+    <enum name="PAYLOAD_STATUS">
       <description>Status of the payload</description>
       <entry value="0" name="PAYLOAD_RETRACTED">
         <description>The payload is retracted</description>
@@ -25,11 +25,11 @@
       <entry value="1" name="PAYLOAD_DEPLOYED">
         <description>The payload is deployed</description>
       </entry>
-	  <entry value="2" name="PAYLOAD_MOVING">
+      <entry value="2" name="PAYLOAD_MOVING">
         <description>The payload is moving</description>
       </entry>
     </enum>
-	<enum name="PAYLOAD_ACTION">
+    <enum name="PAYLOAD_ACTION">
       <description>Actions that can be performed by payloads</description>
       <entry value="0" name="PAYLOAD_DEPLOY">
         <description>Deploy the payload</description>
@@ -37,7 +37,7 @@
       <entry value="1" name="PAYLOAD_RETRACT">
         <description>Retract the payload</description>
       </entry>
-	  <entry value="2" name="PAYLOAD_TAKE_MEASURE">
+      <entry value="2" name="PAYLOAD_TAKE_MEASURE">
         <description>Ask the payload to make a measurment</description>
       </entry>
     </enum>
@@ -47,33 +47,71 @@
       <description>Message describing the current physical configuration of the hydradrone. Use MAV_CMD_REQUEST_MESSAGE to request it.</description>
       <field type="uint8_t" name="status" enum="HYDRADRONE_STATUS">Hydradrone Status</field>
     </message>
-	<message id="45002" name="PAYLOAD_STATUS">
+    <message id="45010" name="ASSOCIATE_PAYLOAD_ID">
+      <description>Message used to associate a Payload ID/name.</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="char[13]" name="payload_name">Payload name</field>
+      <field type="uint8_t" name="payload_id">Payload ID assigned to this payload</field>
+    </message>
+    <message id="45014" name="PAYLOAD_STATUS">
       <description>Message describing the current status of the payload. Use MAV_CMD_REQUEST_MESSAGE to request it.</description>
-      <field type="uint8_t" name="status" enum="PAYLOAD_STATUS">Payload Status</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="uint8_t" name="status" enum="PAYLOAD_STATUS">Payload status</field>
     </message>
-	<message id="45003" name="SET_PAYLOAD_PARAMETER">
-      <description>Message used to set a payload parameter. A PAYLOAD_PARAMETER is emited in response to confirm the new parameter value</description>
-      <field type="char[10]" name="payload_type">Payload Type</field>
-	  <field type="char[18]" name="parameter">Payload parameter</field>
-	  <field type="float" name="value">Parameter value</field>
+    <message id="45050" name="REQUEST_PAYLOAD_PARAMETERS">
+      <description>Message used to request payload parameters in bulk.</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
     </message>
-	<message id="45004" name="PAYLOAD_PARAMETER">
-      <description>Message used to broadcast a payload parameter. Use MAV_CMD_REQUEST_MESSAGE to request it.</description>
-      <field type="char[10]" name="payload_type">Payload Type</field>
-	  <field type="char[18]" name="parameter">Payload parameter</field>
-	  <field type="float" name="value">Parameter value</field>
+    <message id="45051" name="SET_PAYLOAD_PARAMETER_FLOAT">
+      <description>Message used to set a float payload parameter. A PAYLOAD_PARAMETER_FLOAT is emited in response to confirm the new parameter value</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="char[12]" name="parameter">Payload parameter</field>
+      <field type="float" name="value">Parameter value</field>
     </message>
-	<message id="45005" name="DO_PAYLOAD_ACTION">
+    <message id="45052" name="PAYLOAD_PARAMETER_FLOAT">
+      <description>Message used to broadcast a float payload parameter. Use REQUEST_PAYLOAD_PARAMETERS to request it.</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="char[12]" name="parameter">Payload parameter</field>
+      <field type="float" name="value">Parameter value</field>
+    </message>
+    <message id="45053" name="SET_PAYLOAD_PARAMETER_STR">
+      <description>Message used to set a string payload parameter. A PAYLOAD_PARAMETER_STR is emited in response to confirm the new parameter value</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="char[12]" name="parameter">Payload parameter</field>
+      <field type="char[19]" name="value">Parameter value</field>
+    </message>
+    <message id="45054" name="PAYLOAD_PARAMETER_STR">
+      <description>Message used to broadcast a string payload parameter. Use REQUEST_PAYLOAD_PARAMETERS to request it.</description>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="char[12]" name="parameter">Payload parameter</field>
+      <field type="char[19]" name="value">Parameter value</field>
+    </message>
+    <message id="45016" name="DO_PAYLOAD_ACTION">
       <description>Message used to request a payload action.</description>
-      <field type="char[10]" name="payload_type">Payload Type</field>
-	  <field type="uint8_t" name="action" enum="PAYLOAD_ACTION">Action</field>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="uint8_t" name="action" enum="PAYLOAD_ACTION">Action</field>
     </message>
-	<message id="45006" name="PAYLOAD_ACTION_DONE">
+    <message id="45018" name="PAYLOAD_ACTION_DONE">
       <description>Message used to signal the execution of a payload action.</description>
-      <field type="char[10]" name="payload_type">Payload Type</field>
-	  <field type="uint8_t" name="action" enum="PAYLOAD_ACTION">Action</field>
-	  <field type="uint8_t" name="error">Error</field>
-	  <field type="int32_t" name="result">Inline result</field>
+      <field type="uint8_t" name="target_system">Drone System ID</field>
+      <field type="uint8_t" name="target_component">Payload computer Component ID</field>
+      <field type="uint8_t" name="payload_id">Payload ID</field>
+      <field type="uint8_t" name="action" enum="PAYLOAD_ACTION">Action</field>
+      <field type="uint8_t" name="error">Error</field>
+      <field type="int32_t" name="result">Inline result</field>
     </message>
   </messages>
 </mavlink>
