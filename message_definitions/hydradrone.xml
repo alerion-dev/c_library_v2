@@ -41,6 +41,28 @@
         <description>Ask the payload to make a measurment</description>
       </entry>
     </enum>
+    <enum name="MAV_CMD">
+      <entry value="45001" name="MAV_CMD_MODE_AQUATIC">
+        <description>Switches to aquatic mode</description>
+        <param index="1">Empty.</param>
+        <param index="2">Empty.</param>
+        <param index="3">Empty.</param>
+        <param index="4">Empty.</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
+      <entry value="45002" name="MAV_CMD_MODE_MULTIROTOR">
+        <description>Switches to multirotor mode</description>
+        <param index="1">Empty.</param>
+        <param index="2">Empty.</param>
+        <param index="3">Empty.</param>
+        <param index="4">Empty.</param>
+        <param index="5">Empty.</param>
+        <param index="6">Empty.</param>
+        <param index="7">Empty.</param>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <message id="45001" name="HYDRADRONE_STATUS">
