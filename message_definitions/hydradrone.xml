@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <mavlink>
   <include>common.xml</include>
+<!-- Forced by QGC, which relies on ardupilotmega -->
+  <include>uAvionix.xml</include>
+  <include>icarous.xml</include>
+  <include>ardupilotmega.xml</include>
   <enums>
     <enum name="HYDRADRONE_STATUS">
       <description>Physical configuration of the hydradrone</description>
@@ -42,7 +46,7 @@
       </entry>
     </enum>
     <enum name="MAV_CMD">
-      <entry value="45001" name="MAV_CMD_MODE_AQUATIC">
+      <entry value="45001" name="MAV_CMD_DO_MODE_AQUATIC">
         <description>Switches to aquatic mode</description>
         <param index="1">Empty.</param>
         <param index="2">Empty.</param>
@@ -52,7 +56,7 @@
         <param index="6">Empty.</param>
         <param index="7">Empty.</param>
       </entry>
-      <entry value="45002" name="MAV_CMD_MODE_MULTIROTOR">
+      <entry value="45002" name="MAV_CMD_DO_MODE_MULTIROTOR">
         <description>Switches to multirotor mode</description>
         <param index="1">Empty.</param>
         <param index="2">Empty.</param>
